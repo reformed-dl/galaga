@@ -6,7 +6,6 @@ const BOARD_HEIGHT: u32 = 20;
 const STARTING_LIVES: u8 = 5;
 const DISPLAY_CHARACTER: char = '$';
 
-//HashMap from Collections
 std::collections::HashMap::
 
 //Player Struct
@@ -33,7 +32,6 @@ pub struct GameState {
     game_board: HashMap<(u8, u8), char>,
     player: &Player,
 }
-
 
 fn main() {
     println!("Game Board Dimensions {} x {}", BOARD_WIDTH, BOARD_HEIGHT);
