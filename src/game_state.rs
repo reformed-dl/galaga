@@ -22,7 +22,7 @@ impl GameState {
         execute!(stdout(), MoveTo((COLUMNS - 1), 0)).unwrap();//moves cursor to final column
         print!("+");
 
-        for y in 1..ROWS {//row 0 is written with code above, Print "|" in ROWS 1 - 9
+        for y in 1..(ROWS - 1) {//row 0 is written with code above, Print "|" in ROWS 1 - 8
             execute!(stdout(), MoveTo(0, y)).unwrap();//move cursor to Row 1 (0, 1)
             print!("|");
             execute!(stdout(), MoveTo((COLUMNS - 1), y)).unwrap();//move cursor to last column and print "|"
