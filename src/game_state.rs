@@ -4,6 +4,8 @@ use std::collections::HashMap;
 use std::io::stdout;
 use crossterm::cursor::MoveTo;
 use crossterm::execute;
+use std::thread;
+use std::time::Duration;
 
 pub struct GameState {}
 
@@ -40,3 +42,11 @@ impl GameState {
         println!("+         ");
     }
 }
+//Main Game Logic Function
+pub async fn start_game(&mut self) -> Result<(), String> {
+    loop {
+        thread::sleep(Duration::from_millis(10));
+        self.display_board();
+    }
+}
+
