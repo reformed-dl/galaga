@@ -1,4 +1,5 @@
 mod game_state;
+mod structs;
 
 use game_state::GameState;
 
