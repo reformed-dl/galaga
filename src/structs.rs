@@ -16,7 +16,17 @@ pub struct Timer {
 }
 
 impl Timer {
-    fn new(interval: u64) -> Self {
+    pub fn new(interval: u64) -> Self {
         Self { current_timer: 0, interval, }
+    }
+
+    pub fn tick(&mut self) -> bool {
+        self.current_timer += 1;//each time tick is called, we add 1 to current_timer
+        if self.current_timer >= self.interval {//if current_timer is greater than or equal to interval...
+            self.current_timer = 0;//set current_timer to 0
+            true//then return true
+        } else {
+            false//anything else, return false
+        }
     }
 }
