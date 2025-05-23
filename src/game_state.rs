@@ -48,7 +48,7 @@ impl GameState {
             thread::sleep(Duration::from_millis(10));
             self.display_board();
          }
-         Ok(())
+        Ok(())
     }
 }
 
