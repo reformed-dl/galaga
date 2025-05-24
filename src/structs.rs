@@ -31,6 +31,3 @@ impl Timer {
     }
 }
 
-pub struct KeyReader {}
-
-impl KeyReader {}

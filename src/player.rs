@@ -70,3 +70,15 @@ impl Player {
         }
     }
 }
+
+pub struct KeyReader {
+    pub jh: Option<tokio::task::JoinHandle<Key>>,
+}
+
+impl KeyReader {
+    pub fn new() -> KeyReader {
+        KeyReader { jh: Some(tokio::spawn(Self::await_key_press())), }
+    }
+
+    pub async fn await_key_press()
+}
