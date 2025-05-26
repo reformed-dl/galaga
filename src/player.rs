@@ -9,19 +9,19 @@ pub struct Player {
     pub current_position: Option<Cords>, //Cords Tuple struct of (usize, usize) provides location and Option of Some or None
     pub start_position: Cords,//Cords Tuple struct of (usize, usize) gives starting location
     pub death_timer: Timer,//Timer struct for respawning after death
-    pub key_reader: KeyReader,   
+    pub key_reader: KeyReader,//KeyReader Struct for key input   
 }
 
 impl Player {
     pub fn new() -> Self {
-        let start_position = Cords(ROWS - 2, COLUMNS/2);
+        let start_position = Cords(ROWS - 2, COLUMNS/2);//positions player at bottom center of the screen
         Player {
-            display_char: '^',
-            lives: 4,
-            current_position: Some(start_position),
-            start_position,
-            death_timer: Timer::new(200),
-            key_reader: KeyReader,
+            display_char: '^',//player appears as upward arrow
+            lives: 4, //player starts with 4 lives
+            current_position: Some(start_position),//player begins game at start position
+            start_position, //start position is hard coded 
+            death_timer: Timer::new(200), //respawn delay timer (interval)
+            key_reader: KeyReader::new(), //initialize KeyReader struct for storing key inputs
         }
     }
 
