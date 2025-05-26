@@ -98,4 +98,21 @@ impl KeyReader {
         let term = Term::stdout();
         term.read_key().unwrap()
     }
+
+    //This asynch function will return a Option<Key>, either Some(key) or None
+    //This function checks to see if the background task of listening for a key press has been completed (finished)
+    //If so, it returns the key and spawns a new background task listening for the next key press
+    //If not, it returns None
+    pub async fn read_key(&mut self) -> Option<Key > {
+        if self.jh.as_ref().unwrap().is_finished() {//as_ref() converts Option<JoinHandle<Key>> to Option<&JoinHandle<Key>> , is_finished() checks if completed
+            let key = self.jh.take().unwrap().await.unwrap();//assigns the key pressed to the variable 'key'
+            self.jh = Some(tokio::spawn(Self::await_key_press()));//starts new background task listening for key presses
+            Some(key)//returns the actual key pressed
+        } else {
+            None//if no key pressed, returns None
+        }
+    }
+    /*let key = self.jh.take().unwrap().await.unwrap() -> We can't use as_ref() here as  await consumes the JoinHandle, 
+    so we need to take the key out of the struct completely, using take(). await, awaits the result of the JoinHandle and returns Result<Key, JoinError>, 
+    so the second unwrap() extracts the Key value here. Then finally this is stored in the key variable and we return it with Some(key). */
 }
