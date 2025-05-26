@@ -71,14 +71,31 @@ impl Player {
     }
 }
 
+//jh is the name of the field that hold a handle to an asynchronous task responsible for retrieving keys
+//It is wrapped in an Option because sometimes there is a task running Some() and other times there isnt, None
+//tokio::task::JoinHandle<T> is the type returned when spawning an async task using tokio::spawn()
+//T in this case is Key, which is a value from console::Key enum (which represents a key press by the user)
+//This can spawn a background task that "listens" for key presses, and we can "store the handle" so we can later, cancel, await, check if done, etc.
 pub struct KeyReader {
     pub jh: Option<tokio::task::JoinHandle<Key>>,
 }
 
 impl KeyReader {
+    //here we are implementing a constructor method for a new instance of the KeyReader Struct
+    //as idicated by the KeyReader struct, jh has a type of tokio::task::JoinHandle<Key>>
+    //This type will spawn a background async task using tokio::spawn() and run the await_key_press method we haven't coded yet
+    //Store the handle to that task (JoinHandle<Key>) in the KeyReader struct's jh field, which is an Option Enum, Some() or None
+    //We are creating a new instance of KeyReader, with a background task that listens for a key press, saves the JoinHandle in the jh field for later
     pub fn new() -> KeyReader {
-        KeyReader { jh: Some(tokio::spawn(Self::await_key_press())), }
+        KeyReader { jh: Some(tokio::spawn(KeyReader::await_key_press())), }
     }
 
-    pub async fn await_key_press()
+    //this async function has a return type of Key, from console::Key
+    //we declare the variable term and set it to Term::stdout(), which creates a terminal interface object (reading/writing to standard output)
+    //read_key() reads a single key press from the terminal
+    //unwrap() extracts the Result enum returned by read_key()
+    pub async fn await_key_press() -> Key {
+        let term = Term::stdout();
+        term.read_key().unwrap()
+    }
 }
