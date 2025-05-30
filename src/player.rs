@@ -48,10 +48,17 @@ impl Player {
         None
     }
 
+    //parameter is of type Cords, tuple struct (usize, usize)
+    //moves player position to "new_position" -> new (x, y) on the game board
+    //this method is utilized in the use_key async function
     pub fn move_to(&mut self, new_position: Cords) {
         self.current_position = Some(new_position);
     }
 
+    //this function handles instances where there is a collision and the player dies
+    //each instance, the player life total is depricated by 1
+    //Returns none if no lives remaining; If lives remain -> returns reamining lives and sets current_position to None
+    //Return type is an Option<u8> because we are returning Some or None and player lives are of type u8
     pub fn handle_collision(&mut self) -> Option<u8> {
         self.lives -= 1;
         if self.lives == 0 {
@@ -62,6 +69,10 @@ impl Player {
         }
     }
 
+    //this function checks to see if we are able to respawn by checking to see if our current position is None and if death timer has ticked
+    //is_none() is a method used to check if an option returns the None Variant -> If handle_collision results in a current_position of None (lives remain)
+    //if is_none() && tick() method has been called on death_timer, can_respawn is true
+    //if can_respawn, then we use the move_to() function and pass in start_position as the argument
     pub fn respawn(&mut self, can_respawn: bool) {
         if self.current_position.is_none() && self.death_timer.tick() {
             if can_respawn {
