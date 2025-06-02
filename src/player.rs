@@ -25,6 +25,12 @@ impl Player {
         }
     }
 
+    //We know that we are matching on key_reader because we are told that this async function handles key inputs and performs tasks based on inputs
+    //if let syntax allows us to handle one variant, only if self.current_position is a valid Cords(x, y)
+    //Since the return type is Option<Cords>, we establish if let syntax, deal the Some Variant for potential key inputs
+    //return None if self.current_position is not a valid Cords(x, y)
+    //key_reader.read_key() returns the actual key pressed, await pauses the function until a key is pressed, async makes it non-blocking
+    //Depending on different inputs -> Some(Key::input), we define different responses
     pub async fn use_key(&mut self) -> Option<Cords> {
         if let Some(Cords(x,y)) = self.current_position {
             match self.key_reader.read_key().await {
